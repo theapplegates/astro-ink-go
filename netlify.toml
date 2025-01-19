@@ -1,6 +1,5 @@
 [build]
   command = "npm run build"    # The build command to generate your site
-  publish = "dist"   
-  
+  publish = "dist"
 [functions]
-    external_node_modules = ["astro", "vscode-oniguruma"]
+  external_node_modules = ["astro", "vscode-oniguruma"]
