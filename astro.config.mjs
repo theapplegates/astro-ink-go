@@ -1,56 +1,46 @@
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import svelte from '@astrojs/svelte';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import { defineConfig } from "astro/config";
-import vercel from "@astrojs/vercel/serverless";
+import vercel from '@astrojs/vercel';
 import markdoc from "@astrojs/markdoc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-import remarkCodeTitles from 'remark-code-titles'
+import remarkCodeTitles from 'remark-code-titles';
 import decapCmsOauth from "astro-decap-cms-oauth";
+// ⚠  Use default import for the Svelte integration
+import svelte from '@astrojs/svelte';
 
-// Full Astro Configuration API Documentation:
-// https://docs.astro.build/reference/configuration-reference
-
-// https://astro.build/config
-export default defineConfig( /** @type {import('astro').AstroUserConfig} */{
+export default defineConfig({
   output: 'server',
-  site: 'https://astro-ink.vercel.app', // Your public domain, e.g.: https://my-site.dev/. Used to generate sitemaps and canonical URLs.
-  server: {
-    // port: 4321, // The port to run the dev server on.
-  },
+  site: 'https://ink.paulapplegate.com',
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
       theme: 'css-variables',
     },
-    remarkPlugins: [
-      remarkCodeTitles
-    ]
+    remarkPlugins: [remarkCodeTitles],
   },
   integrations: [
-    mdx(), 
+    mdx(),
     markdoc(),
-    svelte(), 
-    tailwind({
-      applyBaseStyles: false,
-    }), 
+    svelte(),        // Default export as a function call
+    tailwind({ applyBaseStyles: false }),
     sitemap(),
-    decapCmsOauth()
+    decapCmsOauth(),
   ],
   vite: {
     plugins: [],
     resolve: {
       alias: {
-        $: path.resolve(__dirname, './src')
-      }
+        $: path.resolve(__dirname, './src'),
+      },
     },
     optimizeDeps: {
-      allowNodeBuiltins: true
-    }
+      allowNodeBuiltins: true,
+    },
   },
-  adapter: vercel()
+  adapter: vercel(),
 });
